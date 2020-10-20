@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "NONVME_gendiff"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["NONVME <efimmm.ev@gmail.com>"]
 packages = [
