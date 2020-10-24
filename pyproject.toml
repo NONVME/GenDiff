@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "NONVME_gendiff"
-version = "0.2.0"
+version = "0.3.0"
 description = ""
 authors = ["NONVME <efimmm.ev@gmail.com>"]
 packages = [
@@ -9,7 +9,6 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-argparse = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
 wemake-python-styleguide = "^0.14.1"

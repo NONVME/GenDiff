@@ -1,11 +1,15 @@
 """The main script."""
 
-from gendiff import args
+from gendiff.args import args
+from gendiff.generate_diff import generate_diff
 
 
 def main():
     """Print a help."""
-    args.args
+    args
+    diff = generate_diff(args.first_file, args.second_file)
+    if args.format == 'plain':
+        print(diff)
 
 
 if __name__ == '__main__':
