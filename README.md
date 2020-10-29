@@ -1,6 +1,6 @@
 ![Python CI](https://github.com/NONVME/python-project-lvl2/workflows/Python%20CI/badge.svg?branch=main)
 [![Maintainability](https://api.codeclimate.com/v1/badges/6647c43a188ac223b894/maintainability)](https://codeclimate.com/github/NONVME/python-project-lvl2/maintainability)
-
+[![Test Coverage](https://api.codeclimate.com/v1/badges/6647c43a188ac223b894/test_coverage)](https://codeclimate.com/github/NONVME/python-project-lvl2/test_coverage)
 
 # GenDiff
 
