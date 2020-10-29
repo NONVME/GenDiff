@@ -30,11 +30,11 @@ def generate_diff(file1: str, file2: str) -> str:
     minus = []
     plus = []
     for key, value in {**same}.items():
-        blank.append(['  ' + str(key) + ': ' + str(value)])
+        blank.append(['   ' + str(key) + ': ' + str(value)])
     for key, value in {**removed, **modified_del}.items():
-        minus.append(['- ' + str(key) + ': ' + str(value)])
+        minus.append([' - ' + str(key) + ': ' + str(value)])
     for key, value in {**modified_add, **added}.items():
-        plus.append(['+ ' + str(key) + ': ' + str(value)])
+        plus.append([' + ' + str(key) + ': ' + str(value)])
     return get_plain(blank, minus, plus)
 
 

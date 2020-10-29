@@ -1,7 +1,7 @@
 """The main script."""
 
-from gendiff.args import args
 from gendiff import generate_diff
+from gendiff.args import args
 
 
 def main():
