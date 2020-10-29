@@ -26,14 +26,17 @@ def generate_diff(file1: str, file2: str) -> str:
     data1 = get_data(file1)
     data2 = get_data(file2)
     same, removed, modified_del, modified_add, added = make_diff(data1, data2)
+    blank_dict = sorted(same.items(), key=lambda x: x[0])
+    minus_dict = sorted({**removed, **modified_del}.items(), key=lambda x: x[0])
+    plus_dict = sorted({**modified_add, **added}.items(), key=lambda x: x[0])
     blank = []
     minus = []
     plus = []
-    for key, value in {**same}.items():
+    for key, value in blank_dict:
         blank.append(['   ' + str(key) + ': ' + str(value)])
-    for key, value in {**removed, **modified_del}.items():
+    for key, value in minus_dict:
         minus.append([' - ' + str(key) + ': ' + str(value)])
-    for key, value in {**modified_add, **added}.items():
+    for key, value in plus_dict:
         plus.append([' + ' + str(key) + ': ' + str(value)])
     return get_plain(blank, minus, plus)
 
@@ -48,4 +51,5 @@ def make_diff(data1: dict, data2: dict) -> dict:
     mod_removed = {o: data1[o] for o in intersect_keys if data1[o] != data2[o]}
     mod_added = {o: data2[o] for o in intersect_keys if data1[o] != data2[o]}
     added = {o: data2[o] for o in d2_keys - d1_keys}
+    print(removed)
     return same, removed, mod_removed, mod_added, added
