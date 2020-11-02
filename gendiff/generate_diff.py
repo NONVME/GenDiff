@@ -1,47 +1,19 @@
 """Module for create diff and formatting."""
 import json
 import os
-
-
-def get_data(path: str) -> dict:
-    """Parse data from file to dict."""
-    fullpath = os.path.abspath(path)
-    with open(fullpath, 'r') as file:
-        return json.load(file)
-
-
-def get_plain(blank: list, minus: list, plus: list) -> str:
-    """Format diff dict to plain text."""
-    return '{{\n{0}\n{1}\n{2}\n}}'.format(unpack(blank),
-                                          unpack(minus),
-                                          unpack(plus))
-
-
-def unpack(listing: list) -> str:
-    return '\n'.join((sum(listing, [])))
+from collections import OrderedDict
 
 
 def generate_diff(file1: str, file2: str) -> str:
     """Generate diff between first and second dicts."""
     data1 = get_data(file1)
     data2 = get_data(file2)
-    same, removed, modified_del, modified_add, added = make_diff(data1, data2)
-    blank_dict = sorted(same.items(), key=lambda x: x[0])
-    minus_dict = sorted({**removed, **modified_del}.items(), key=lambda x: x[0])
-    plus_dict = sorted({**modified_add, **added}.items(), key=lambda x: x[0])
-    blank = []
-    minus = []
-    plus = []
-    for key, value in blank_dict:
-        blank.append(['   ' + str(key) + ': ' + str(value)])
-    for key, value in minus_dict:
-        minus.append([' - ' + str(key) + ': ' + str(value)])
-    for key, value in plus_dict:
-        plus.append([' + ' + str(key) + ': ' + str(value)])
-    return get_plain(blank, minus, plus)
+    diff = make_diff(data1, data2)
+    return gen_plain_text(diff)
 
 
 def make_diff(data1: dict, data2: dict) -> dict:
+    """Make row date."""
     d1_keys = set(data1.keys())
     d2_keys = set(data2.keys())
     intersect_keys = d1_keys.intersection(d2_keys)
@@ -51,5 +23,38 @@ def make_diff(data1: dict, data2: dict) -> dict:
     mod_removed = {o: data1[o] for o in intersect_keys if data1[o] != data2[o]}
     mod_added = {o: data2[o] for o in intersect_keys if data1[o] != data2[o]}
     added = {o: data2[o] for o in d2_keys - d1_keys}
-    print(removed)
-    return same, removed, mod_removed, mod_added, added
+
+    return {'blank': {**sort_dict(same)},
+            'minus': {**sort_dict(removed), **sort_dict(mod_removed)},
+            'plus': {**sort_dict(mod_added), **sort_dict(added)}}
+
+
+def sort_dict(row_dict: dict):
+    """Sort dict for normilize the diff."""
+    return OrderedDict(sorted(row_dict.items(), key=lambda x: x[0]))
+
+
+def get_data(path: str) -> dict:
+    """Parse data from file to dict."""
+    fullpath = os.path.abspath(path)
+    with open(fullpath, 'r') as file:
+        return json.load(file)
+
+
+def gen_plain_text(diff: dict) -> str:
+    """Format diff dict to plain text."""
+    diff_copy = diff.copy()
+    for field, inner_dict in diff.items():
+        key = inner_dict.keys()
+        value = inner_dict.values()
+        if field == 'blank':
+            strings = '\n'.join(
+                ['   ' + str(a) + ': ' + str(b) for a, b in zip(key, value)])
+        if field == 'minus':
+            strings = '\n'.join(
+                [' - ' + str(a) + ': ' + str(b) for a, b in zip(key, value)])
+        if field == 'plus':
+            strings = '\n'.join(
+                [' + ' + str(a) + ': ' + str(b) for a, b in zip(key, value)])
+        diff_copy.update({field: strings})
+    return '{{\n{blank}\n{minus}\n{plus}\n}}'.format(**diff_copy)
