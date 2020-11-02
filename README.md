@@ -24,10 +24,6 @@ gendiff file1 file2
 
 [![asciicast](https://asciinema.org/a/ZTpmGbA920z9UJIxrdIIxMgyo.svg)](https://asciinema.org/a/ZTpmGbA920z9UJIxrdIIxMgyo)
 
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
