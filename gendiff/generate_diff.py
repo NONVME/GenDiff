@@ -3,6 +3,8 @@ import json
 import os
 from collections import OrderedDict
 
+import yaml
+
 
 def generate_diff(file1: str, file2: str) -> str:
     """Generate diff between first and second dicts."""
@@ -37,8 +39,14 @@ def sort_dict(row_dict: dict):
 def get_data(path: str) -> dict:
     """Parse data from file to dict."""
     fullpath = os.path.abspath(path)
-    with open(fullpath, 'r') as file:
-        return json.load(file)
+    _, ext = os.path.splitext(path)
+    with open(fullpath, 'r', encoding='utf-8') as file:
+        if ext == '.json':
+            return json.load(file)
+        elif ext == '.yaml':
+            return yaml.safe_load(file)
+        elif ext == '.yml':
+            return yaml.safe_load(file)
 
 
 def gen_plain_text(diff: dict) -> str:

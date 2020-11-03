@@ -1,12 +1,21 @@
+"""Testing mod."""
+from gendiff.generate_diff import generate_diff
+
 import pytest
 
-from gendiff.generate_diff import generate_diff, get_data
 
-
-def test_answer(get_correct_diff_text):
+def test_json(get_correct_diff_text):
     check_answer = generate_diff('tests/fixtures/file1.json',
                                  'tests/fixtures/file2.json')
-    assert check_answer.split('\n') == get_correct_diff_text, check_answer.split('\n')
+    assert check_answer.split(
+        '\n') == get_correct_diff_text, check_answer.split('\n')
+
+
+def test_yaml(get_correct_diff_text):
+    check_answer = generate_diff('tests/fixtures/file1.yaml',
+                                 'tests/fixtures/file2.yaml')
+    assert check_answer.split(
+        '\n') == get_correct_diff_text, check_answer.split('\n')
 
 
 @pytest.fixture
