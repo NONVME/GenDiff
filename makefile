@@ -8,7 +8,7 @@ lint: selfcheck ## Run linter
 	@poetry run flake8 gendiff
 
 test: ## Run tests
-	@poetry run pytest -v
+	@poetry run pytest -v --cov .
 
 test-cov: ## Prepare coverage report for Codeclimate and tests
 	@poetry run coverage run --source=gendiff -m pytest
