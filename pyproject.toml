@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "NONVME_gendiff"
-version = "0.3.0"
-description = ""
+version = "0.4.2"
+description = "Json and Yaml files difference generator"
 authors = ["NONVME <efimmm.ev@gmail.com>"]
 packages = [
   { include = "gendiff" },
@@ -9,6 +9,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
+pyyaml = "^5.3.1"
 
 [tool.poetry.dev-dependencies]
 wemake-python-styleguide = "^0.14.1"
