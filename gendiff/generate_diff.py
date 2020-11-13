@@ -3,15 +3,16 @@ import json
 import os
 
 import yaml
+
 from gendiff.stylish import stylish
 
 
-def generate_diff(file1: str, file2: str, format: str) -> str:
+def generate_diff(file1: str, file2: str, style: str) -> str:
     """Generate diff between first and second dicts."""
     data1 = get_data(file1)
     data2 = get_data(file2)
     diff = make_diff(data1, data2)
-    return stylish(diff, format)
+    return stylish(diff, style)
 
 
 def make_diff(data1: dict, data2: dict) -> dict:
@@ -33,9 +34,10 @@ def make_diff(data1: dict, data2: dict) -> dict:
 
 def get_data(path: str) -> dict:
     """Parse data from file to dict."""
+    yaml_formats = ('.yaml', '.yml')
     fullpath = os.path.abspath(path)
     _, ext = os.path.splitext(path)
     with open(fullpath, 'r', encoding='utf-8') as file:
-        if ext.lower() in ('.yaml', '.yml'):
+        if ext.lower() in yaml_formats:
             return yaml.safe_load(file)
         return json.load(file)

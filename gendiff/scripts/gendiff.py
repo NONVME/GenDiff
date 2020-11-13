@@ -5,8 +5,7 @@ from gendiff.args import args
 
 
 def main():
-    """Selection format selection."""
-    args
+    """Select format selection."""
     print(generate_diff(args.first_file, args.second_file, args.format))
 
 
