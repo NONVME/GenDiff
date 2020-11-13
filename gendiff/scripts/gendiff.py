@@ -5,11 +5,9 @@ from gendiff.args import args
 
 
 def main():
-    """Print a help."""
+    """Selection format selection."""
     args
-    diff = generate_diff(args.first_file, args.second_file)
-    if args.format == 'plain':
-        print(diff)
+    print(generate_diff(args.first_file, args.second_file, args.format))
 
 
 if __name__ == '__main__':
