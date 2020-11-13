@@ -21,13 +21,13 @@ def make_diff(data1: dict, data2: dict) -> dict:
         if isinstance(data1[key], dict) and isinstance(data2[key], dict):
             diff[key] = ('nested', make_diff(data1[key], data2[key]))
         elif data1[key] != data2[key]:
-            diff[key] = ('changed', [data1[key], data2[key]])
+            diff[key] = ('changed', (data1[key], data2[key]))
         else:
-            diff[key] = ('same', [data2[key]])
+            diff[key] = ('same', data2[key])
     for key in data1.keys() - data2.keys():
-        diff[key] = ('removed', [data1[key]])
+        diff[key] = ('removed', data1[key])
     for key in data2.keys() - data1.keys():
-        diff[key] = ('added', [data2[key]])
+        diff[key] = ('added', data2[key])
     return diff
 
 
