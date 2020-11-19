@@ -3,14 +3,19 @@ import json
 import os
 
 import yaml
+from gendiff.formatters.stylish import stylish
 
-from gendiff.stylish import stylish
+NESTED = 'nested'
+CHANGED = 'changed'
+NO_CHANGED = 'no_changed'
+REMOVED = 'removed'
+ADDED = 'added'
 
 
 def generate_diff(file1: str, file2: str, style: str) -> str:
     """Generate diff between first and second dicts."""
-    data1 = get_data(file1)
-    data2 = get_data(file2)
+    data1 = get_file_data(file1)
+    data2 = get_file_data(file2)
     diff = make_diff(data1, data2)
     return stylish(diff, style)
 
@@ -20,19 +25,19 @@ def make_diff(data1: dict, data2: dict) -> dict:
     diff = {}
     for key in data1.keys() & data2.keys():
         if isinstance(data1[key], dict) and isinstance(data2[key], dict):
-            diff[key] = ('nested', make_diff(data1[key], data2[key]))
+            diff[key] = (NESTED, make_diff(data1[key], data2[key]))
         elif data1[key] != data2[key]:
-            diff[key] = ('changed', (data1[key], data2[key]))
+            diff[key] = (CHANGED, (data1[key], data2[key]))
         else:
-            diff[key] = ('same', data2[key])
+            diff[key] = (NO_CHANGED, data2[key])
     for key in data1.keys() - data2.keys():
-        diff[key] = ('removed', data1[key])
+        diff[key] = (REMOVED, data1[key])
     for key in data2.keys() - data1.keys():
-        diff[key] = ('added', data2[key])
+        diff[key] = (ADDED, data2[key])
     return diff
 
 
-def get_data(path: str) -> dict:
+def get_file_data(path: str) -> dict:
     """Parse data from file to dict."""
     yaml_formats = ('.yaml', '.yml')
     fullpath = os.path.abspath(path)

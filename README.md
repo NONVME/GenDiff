@@ -4,10 +4,9 @@
 
 # GenDiff
 (GENerator of DIFFerences) 
+The cli package gives diff between two files.
 
 This is a second level project. created as part of the [Hexlet](https://ru.hexlet.io/) training course to prepare a Python Web developer.
-
-The cli package gives diff between two files.
 
 ## Features
 
