@@ -3,6 +3,7 @@ import json
 import os
 
 import yaml
+
 from gendiff.formatters.stylish import stylish
 
 NESTED = 'nested'
