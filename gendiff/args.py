@@ -1,8 +1,8 @@
 """The argparse module for automatically generates help."""
 
 import argparse
-from gendiff.formatters.stylish import PRETTY, PLAIN, JSON
-from gendiff import generate_diff
+
+from gendiff.formatters.stylish import JSON, PLAIN, PRETTY
 
 
 def get_args_parser():
