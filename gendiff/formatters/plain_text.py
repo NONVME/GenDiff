@@ -13,7 +13,7 @@ def make_result(listing):
         if status == gen_diff.NESTED:
             result.extend(value)
 
-        if status == gen_diff.REMOVED:
+        elif status == gen_diff.REMOVED:
             string = f"Property '{path}' was {status}\n"
             result.append(string)
 
@@ -35,15 +35,12 @@ def make_result(listing):
 def make_plain_text(diff):
     def inner(dict_tree, root_keys=None):
         output = []
-        for key, (status, value) in dict_tree.items():
+        for key, (status, value) in sorted(dict_tree.items()):
             path = f'{root_keys}.{key}' if root_keys else key
             if status == gen_diff.NESTED:
-                output.append([path, status, inner(value, path)])
+                output.append((path, status, inner(value, path)))
             else:
                 output.append((path, status, value))
-
-        output = list(map(list, output))
-        output.sort()
         result = make_result(output)
         return ''.join(result)
     return inner(diff)

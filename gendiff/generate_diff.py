@@ -29,12 +29,20 @@ def make_diff(data1: dict, data2: dict) -> dict:
             diff[key] = (NESTED, make_diff(data1[key], data2[key]))
         elif data1[key] != data2[key]:
             diff[key] = (CHANGED, (data1[key], data2[key]))
+        elif isinstance(data1[key], dict):
+            diff[key] = (NO_CHANGED, make_diff(data1[key], data1[key]))
         else:
-            diff[key] = (NO_CHANGED, data2[key])
+            diff[key] = (NO_CHANGED, data1[key])
     for key in data1.keys() - data2.keys():
-        diff[key] = (REMOVED, data1[key])
+        if isinstance(data1[key], dict):
+            diff[key] = (REMOVED, make_diff(data1[key], data1[key]))
+        else:
+            diff[key] = (REMOVED, data1[key])
     for key in data2.keys() - data1.keys():
-        diff[key] = (ADDED, data2[key])
+        if isinstance(data2[key], dict):
+            diff[key] = (ADDED, make_diff(data2[key], data2[key]))
+        else:
+            diff[key] = (ADDED, data2[key])
     return diff
 
 
