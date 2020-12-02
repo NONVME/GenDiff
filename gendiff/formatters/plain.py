@@ -1,4 +1,4 @@
-import gendiff.generate_diff as gen_diff
+import gendiff.diff_engine as diff_engine
 
 
 def stringify(value):
@@ -10,20 +10,20 @@ def stringify(value):
 def make_result(listing):
     result = []
     for (path, status, value) in listing:
-        if status == gen_diff.NESTED:
-            result.extend(value)
+        if status == diff_engine.NESTED:
+            result.append(value)
 
-        elif status == gen_diff.REMOVED:
+        elif status == diff_engine.REMOVED:
             string = f"Property '{path}' was {status}\n"
             result.append(string)
 
-        elif status == gen_diff.ADDED:
+        elif status == diff_engine.ADDED:
             value = stringify(value)
             string = f"Property '{path}' was {status} with value: '{value}'\n"
             result.append(string)
 
-        elif status == gen_diff.CHANGED:
-            value_before, changed_value = value[0], value[1]
+        elif status == diff_engine.CHANGED:
+            value_before, changed_value = map(stringify, value)
             value_before = stringify(value_before)
             changed_value = stringify(changed_value)
             string = f"Property '{path}' was updated. From '{value_before}' to '{changed_value}'\n"   # noqa: E501
@@ -32,12 +32,12 @@ def make_result(listing):
     return result
 
 
-def make_plain_text(diff):
+def make_plain(diff):
     def inner(dict_tree, root_keys=None):
         output = []
         for key, (status, value) in sorted(dict_tree.items()):
             path = f'{root_keys}.{key}' if root_keys else key
-            if status == gen_diff.NESTED:
+            if status == diff_engine.NESTED:
                 output.append((path, status, inner(value, path)))
             else:
                 output.append((path, status, value))
