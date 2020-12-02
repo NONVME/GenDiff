@@ -1,11 +1,9 @@
 import gendiff.diff_engine as diff_engine
-import pprint
-
 
 KEYWORD = {
     True: 'true',
     False: 'false',
-    None: 'null'
+    None: 'null',
 }
 
 
@@ -18,14 +16,20 @@ def make_pretty(diff):
             if isinstance(value, bool):
                 value = KEYWORD[value]
             if status == diff_engine.CHANGED:
-                output.append(inner({key: (diff_engine.REMOVED, value[0])}, space))
-                output.append(inner({key: (diff_engine.ADDED, value[1])}, space))
+                output.append(
+                    inner({key: (diff_engine.REMOVED, value[0])}, space))
+                output.append(
+                    inner({key: (diff_engine.ADDED, value[1])}, space))
             else:
                 if isinstance(value, dict):
                     if status == diff_engine.NESTED:
-                        value = inner(value, space+4)
+                        value = inner(value, space + 4)
                     else:
-                        value = inner({k: (diff_engine.UNCHANGED, v) for k, v in value.items()}, space+4)
+                        value = inner(
+                            {
+                                k: (diff_engine.UNCHANGED, v)
+                                for k, v in value.items()
+                            }, space + 4)
                     value = '{{\n{}\n  {}}}'.format(value, indent)
                 output.append(get_output_row(key, value, indent, status))
         return '\n'.join(output)
@@ -37,5 +41,4 @@ def get_output_row(key, value, indent, status=None):
         return '{}+ {}: {}'.format(indent, key, value)
     elif status == diff_engine.REMOVED:
         return '{}- {}: {}'.format(indent, key, value)
-    else:
-        return '{}  {}: {}'.format(indent, key, value)
+    return '{}  {}: {}'.format(indent, key, value)
