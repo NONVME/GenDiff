@@ -3,44 +3,47 @@ import json
 
 import pytest
 from gendiff.diff_generator import generate_diff
-from gendiff.formatters.stylish import JSON, PLAIN, PRETTY
+from gendiff.formatters.format import JSON, PLAIN, PRETTY
 
-JSON_FILE1 = 'tests/fixtures/file1.json'
-JSON_FILE2 = 'tests/fixtures/file2.json'
-YAML_FILE1 = 'tests/fixtures/file1.yaml'
-YAML_FILE2 = 'tests/fixtures/file2.yaml'
+FILE1 = 'tests/fixtures/file1'
+FILE2 = 'tests/fixtures/file2'
 
 
-def test_pretty(pretty_validation):
-    assert generate_diff(JSON_FILE1, JSON_FILE2, PRETTY) == pretty_validation
-    assert generate_diff(YAML_FILE1, YAML_FILE2, PRETTY) == pretty_validation
+@pytest.mark.parametrize('ext', ['.json', '.yaml'])
+def test_pretty(get_valid_pretty, ext):
+    file1 = f'{FILE1}{ext}'
+    file2 = f'{FILE2}{ext}'
+    assert generate_diff(file1, file2, PRETTY) == get_valid_pretty
 
 
-def test_plain(plain_validation):
-    assert generate_diff(JSON_FILE1, JSON_FILE2, PLAIN) == plain_validation
-    assert generate_diff(YAML_FILE1, YAML_FILE2, PLAIN) == plain_validation
+@pytest.mark.parametrize('ext', ['.json', '.yaml'])
+def test_plain(get_valid_plain, ext):
+    file1 = f'{FILE1}{ext}'
+    file2 = f'{FILE2}{ext}'
+    assert generate_diff(file1, file2, PLAIN) == get_valid_plain
 
 
-def test_json(json_validation):
-    input_json = generate_diff(JSON_FILE1, JSON_FILE2, JSON)
-    input_yaml = generate_diff(YAML_FILE1, YAML_FILE2, JSON)
-    assert json.loads(input_json) == json.loads(json_validation)
-    assert json.loads(input_yaml) == json.loads(json_validation)
+@pytest.mark.parametrize('ext', ['.json', '.yaml'])
+def test_json(get_valid_json, ext):
+    file1 = f'{FILE1}{ext}'
+    file2 = f'{FILE2}{ext}'
+    output = generate_diff(file1, file2, JSON)
+    assert json.loads(output) == json.loads(get_valid_json)
 
 
 @pytest.fixture
-def pretty_validation():
+def get_valid_pretty():
     with open('tests/fixtures/correct_pretty') as file:
         yield file.read()
 
 
 @pytest.fixture
-def plain_validation():
+def get_valid_plain():
     with open('tests/fixtures/correct_plain') as file:
         yield file.read()
 
 
 @pytest.fixture
-def json_validation():
+def get_valid_json():
     with open('tests/fixtures/correct_json') as file:
         yield file.read()

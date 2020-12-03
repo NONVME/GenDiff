@@ -2,7 +2,7 @@
 
 import argparse
 
-from gendiff.formatters.stylish import JSON, PLAIN, PRETTY
+from gendiff.formatters.format import JSON, PLAIN, PRETTY
 
 
 def get_args_parser():
