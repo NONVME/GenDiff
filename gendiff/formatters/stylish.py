@@ -38,10 +38,8 @@ def get_output_row(key, value, indent, status=None):
 
 
 def stringify(value):
-    if value is True:
-        value = 'true'
-    elif value is False:
-        value = 'false'
+    if isinstance(value, bool):
+        return {True: 'true', False: 'false'}[value]
     elif value is None:
         value = 'null'
     return value
