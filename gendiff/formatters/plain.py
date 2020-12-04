@@ -38,8 +38,6 @@ def make_result(listing):
 
         elif status == diff_engine.CHANGED:
             value_before, changed_value = map(stringify, value)
-            value_before = stringify(value_before)
-            changed_value = stringify(changed_value)
             string = f"Property '{path}' was updated. From '{value_before}' to '{changed_value}'"   # noqa: E501
             result.append(string)
 

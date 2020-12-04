@@ -1,11 +1,5 @@
 import gendiff.diff_engine as diff_engine
 
-KEYWORD = {
-    True: 'true',
-    False: 'false',
-    None: 'null',
-}
-
 
 def make_pretty(diff):
     def inner(diff_tree, space=2):
@@ -44,8 +38,10 @@ def get_output_row(key, value, indent, status=None):
 
 
 def stringify(value):
-    if isinstance(value, bool):
-        value = KEYWORD[value]
+    if value is True:
+        value = 'true'
+    elif value is False:
+        value = 'false'
     elif value is None:
-        value = KEYWORD[value]
+        value = 'null'
     return value
