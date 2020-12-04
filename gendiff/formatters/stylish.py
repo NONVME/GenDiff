@@ -13,8 +13,7 @@ def make_pretty(diff):
         indent = ' ' * space
         for key in sorted(diff_tree.keys()):
             status, value = diff_tree[key]
-            if isinstance(value, bool) or value is None:
-                value = KEYWORD[value]
+            value = stringify(value)
             if status == diff_engine.CHANGED:
                 output.append(
                     inner({key: (diff_engine.REMOVED, value[0])}, space))
@@ -42,3 +41,11 @@ def get_output_row(key, value, indent, status=None):
     elif status == diff_engine.REMOVED:
         return '{}- {}: {}'.format(indent, key, value)
     return '{}  {}: {}'.format(indent, key, value)
+
+
+def stringify(value):
+    if isinstance(value, bool):
+        value = KEYWORD[value]
+    elif value is None:
+        value = KEYWORD[value]
+    return value
