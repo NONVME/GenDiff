@@ -2,6 +2,7 @@
 import json
 
 import pytest
+
 from gendiff.diff_generator import generate_diff
 from gendiff.formatters.format import JSON, PLAIN, PRETTY
 
@@ -13,7 +14,7 @@ CORRECT_JSON = 'tests/fixtures/correct_json'
 
 
 @pytest.mark.parametrize('ext', ['.json', '.yaml'])
-def test_(ext):
+def test_generate_diff(ext):
     file1 = f'{FILE1}{ext}'
     file2 = f'{FILE2}{ext}'
     output = generate_diff(file1, file2, JSON)
