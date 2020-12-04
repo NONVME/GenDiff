@@ -23,7 +23,7 @@ def make_pretty(diff):
                                 k: (diff_engine.UNCHANGED, v)
                                 for k, v in value.items()
                             }, space + 4)
-                    value = '{{\n{}\n  {}}}'.format(value, indent)
+                    value = '{\n' + value + '\n  ' + indent + '}'
                 output.append(get_output_row(key, value, indent, status))
         return '\n'.join(output)
     return '{\n' + inner(diff) + '\n}'
