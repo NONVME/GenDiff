@@ -6,12 +6,19 @@ PRETTY = 'pretty'
 PLAIN = 'plain'
 JSON = 'json'
 
+format = {
+    PRETTY: make_pretty,
+    PLAIN: make_plain,
+    JSON: make_json,
+}
+
 
 def build(diff, format_type):
-    if format_type == PRETTY:
-        formatter = make_pretty(diff)
-    elif format_type == JSON:
-        formatter = make_json(diff)
-    elif format_type == PLAIN:
-        formatter = make_plain(diff)
-    return formatter
+    try:
+        if format_type in format:
+            formatter = format[format_type](diff)
+        else:
+            raise Exception('No such formatter')
+        return formatter
+    except Exception as e:
+        print('Exception: ' + str(e))
