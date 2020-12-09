@@ -7,11 +7,11 @@ PLAIN = 'plain'
 JSON = 'json'
 
 
-def choose(diff, format_type=PRETTY):
+def build(diff, format_type):
     if format_type == PRETTY:
         formatter = make_pretty(diff)
     elif format_type == JSON:
         formatter = make_json(diff)
-    else:
+    elif format_type == PLAIN:
         formatter = make_plain(diff)
     return formatter

@@ -1,4 +1,4 @@
-import gendiff.diff_engine as diff_engine
+import gendiff.engine as diff_engine
 
 
 def stringify(value):

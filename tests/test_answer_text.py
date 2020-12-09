@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from gendiff.diff_generator import generate_diff
+from gendiff.generator import generate_diff
 from gendiff.formatters.format import JSON, PLAIN, PRETTY
 
 FILE1 = 'tests/fixtures/file1'
@@ -18,8 +18,8 @@ def test_generate_diff(ext):
     file1 = f'{FILE1}{ext}'
     file2 = f'{FILE2}{ext}'
     output = generate_diff(file1, file2, JSON)
-    assert generate_diff(file1, file2, PRETTY) ==read_file(CORRECT_PRETTY)
-    assert generate_diff(file1, file2, PLAIN) ==read_file(CORRECT_PLAIN)
+    assert generate_diff(file1, file2, PRETTY) == read_file(CORRECT_PRETTY)
+    assert generate_diff(file1, file2, PLAIN) == read_file(CORRECT_PLAIN)
     assert json.loads(output) == json.loads(read_file(CORRECT_JSON))
 
 
