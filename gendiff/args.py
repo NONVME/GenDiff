@@ -2,7 +2,7 @@
 
 import argparse
 
-from gendiff.formatters.format import JSON, PLAIN, PRETTY
+from gendiff.formatters.format import FORMATTERS
 
 
 def get_args_parser():
@@ -15,8 +15,8 @@ def get_args_parser():
     parser.add_argument('-f',
                         '--format',
                         help='\n set format of output',
-                        choices=[PRETTY, PLAIN, JSON],
-                        default=PRETTY,
+                        choices=sorted(FORMATTERS.keys()),
+                        default=FORMATTERS.keys()[0],
                         type=str,
                         )
 

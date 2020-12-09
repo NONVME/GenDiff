@@ -6,19 +6,17 @@ PRETTY = 'pretty'
 PLAIN = 'plain'
 JSON = 'json'
 
-format = {
-    PRETTY: make_pretty,
-    PLAIN: make_plain,
-    JSON: make_json,
+FORMATTERS = {
+    'pretty': make_pretty,
+    'plain': make_plain,
+    'json': make_json,
 }
 
 
 def build(diff, format_type):
     try:
-        if format_type in format:
-            formatter = format[format_type](diff)
-        else:
-            raise Exception('No such formatter')
-        return formatter
-    except Exception as e:
-        print('Exception: ' + str(e))
+        formatter = FORMATTERS[format_type]
+    except KeyError:
+        raise ValueError(f'No such formatter {format_type}')
+    else:
+        return formatter(diff)
