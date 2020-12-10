@@ -7,9 +7,9 @@ PLAIN = 'plain'
 JSON = 'json'
 
 FORMATTERS = {
-    'pretty': make_pretty,
-    'plain': make_plain,
-    'json': make_json,
+    PRETTY: make_pretty,
+    PLAIN: make_plain,
+    JSON: make_json,
 }
 
 
