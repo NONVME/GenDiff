@@ -2,7 +2,7 @@
 
 import argparse
 
-from gendiff.formatters.format import FORMATTERS
+from gendiff.formatters.format import FORMATTERS, PRETTY
 
 
 def get_args_parser():
@@ -16,7 +16,7 @@ def get_args_parser():
                         '--format',
                         help='\n set format of output',
                         choices=sorted(FORMATTERS.keys()),
-                        default=FORMATTERS.keys()[0],
+                        default=PRETTY,
                         type=str,
                         )
 
