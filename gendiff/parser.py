@@ -8,4 +8,6 @@ def parse(data: str, ext: str) -> dict:
     yaml_formats = ('.yaml', '.yml')
     if ext.lower() in yaml_formats:
         return yaml.safe_load(data)
-    return json.loads(data)
+    elif ext.lower() == '.json':
+        return json.loads(data)
+    raise ValueError(f'Unhandled file extension {ext}')
